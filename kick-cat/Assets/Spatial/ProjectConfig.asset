@@ -16,3 +16,4 @@ MonoBehaviour:
   _defaultWorldID: ira75fvlqqfvsdw2n36cy
   _packages:
   - {fileID: 11400000, guid: f9f137dea7f63477ba0010b47000a828, type: 2}
+  - {fileID: 11400000, guid: 23bc8ad43e162471ca26c080ae5142bc, type: 2}
