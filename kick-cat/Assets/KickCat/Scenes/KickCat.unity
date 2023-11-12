@@ -2637,7 +2637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f30fa80fc77846bfa374c093d0167ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _generateKickableObjectIntervalRange: {x: 1, y: 5}
+  _generateKickableObjectIntervalRange: {x: 0.4, y: 1.7}
 --- !u!1 &1044819213
 GameObject:
   m_ObjectHideFlags: 0
