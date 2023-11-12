@@ -9,6 +9,7 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
+/[Ee]xports/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
@@ -71,5 +72,9 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-#vscode
+# vscode
 /.vscode
+
+# VisualScripting
+/[Aa]ssets/Unity.VisualScripting.Generated
+/[Aa]ssets/Unity.VisualScripting.Generated.meta
