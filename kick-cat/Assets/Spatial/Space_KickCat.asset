@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Space_KickCat
   m_EditorClassIdentifier: 
   version: 1
-  sku: 
+  sku: 6550459bd3fec196a698dc01
   packageName: Kick Cat
   thumbnail: {fileID: 2800000, guid: 8b8a602b70bfe4309bc13eabc8e192f6, type: 3}
   savedProjectSettings: {fileID: 11400000, guid: b4d3f3931508d4e3381693ee23f6fe04,
     type: 2}
-  worldID: 
+  worldID: ira75fvlqqfvsdw2n36cy
   scene: {fileID: 102900000, guid: 668f1f208bda84b8996e7e9c7ac6d9c0, type: 3}
   csharpAssembly: {fileID: 5897886265953266890, guid: 8015b12a3050d4dc5935896ccec3a9c6,
     type: 3}
