@@ -782,8 +782,8 @@ PlayerSettings:
   webGLDecompressionFallback: 0
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    WebGL: SPATIAL_UNITYSDK_STAGING;SPATIAL_UNITYSDK_DISABLE_UPGRADE_CHECK
-    iPhone: SPATIAL_UNITYSDK_STAGING;SPATIAL_UNITYSDK_DISABLE_UPGRADE_CHECK
+    WebGL: 
+    iPhone: 
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
