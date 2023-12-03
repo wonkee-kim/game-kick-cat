@@ -9,7 +9,7 @@ public class ScoreManager : MonoBehaviour
     private static ScoreManager _instance;
 
     private static int ANIM_TRIGGER_POP = Animator.StringToHash("pop");
-    private const string SCORE_DATA_STORE_KEU = "score";
+    private const string SCORE_DATA_STORE_KEY = "score";
 
     // [SerializeField] private Transform _scoreTextTransform;
     // [SerializeField] private AnimationCurve _floatingTextScaleCurve;
@@ -24,10 +24,10 @@ public class ScoreManager : MonoBehaviour
     private int _currentScore = 0;
     private bool _initialized = false;
 
-    private ClientBridge.DataStoreOperationResult _dataStoreOperationResult;
+    private SpatialBridge.DataStoreOperationResult _dataStoreOperationResult;
     private bool _isDataStoreOperationComplete = false;
 
-    private Action<ClientBridge.DataStoreOperationResult> _hasDataStoreCallback;
+    private Action<SpatialBridge.DataStoreOperationResult> _hasDataStoreCallback;
 
     private void Awake()
     {
@@ -36,14 +36,14 @@ public class ScoreManager : MonoBehaviour
             _instance = this;
         }
 
-        // _dataStoreOperationResult = new ClientBridge.DataStoreOperationResult();
+        // _dataStoreOperationResult = new SpatialBridge.DataStoreOperationResult();
 
         _hasDataStoreCallback += HasDataStoreCallbackA;
     }
 
     private void Update()
     {
-        if (!_initialized && ClientBridge.GetIsSceneInitialized())
+        if (!_initialized && SpatialBridge.GetIsSceneInitialized())
         {
             _initialized = true;
             _scoreText.text = _currentScore.ToString("N0");
@@ -56,8 +56,8 @@ public class ScoreManager : MonoBehaviour
     private void InitializeScoreWithData()
     {
         // bool completed = false;
-        // ClientBridge.GetDataStoreVariableValue?.Invoke(
-        //     flow.GetValue<ClientBridge.DataStoreScope>(scope),
+        // SpatialBridge.GetDataStoreVariableValue?.Invoke(
+        //     flow.GetValue<SpatialBridge.DataStoreScope>(scope),
         //     flow.GetValue<string>(key),
         //     flow.GetValue<object>(defaultValue),
         //     result =>
@@ -73,12 +73,12 @@ public class ScoreManager : MonoBehaviour
 
         Debug.LogError("!!! InitializeScoreWithData");
         // _isDataStoreOperationComplete = false;
-        // ClientBridge.HasDataStoreVariable(ClientBridge.DataStoreScope.UserWorldData, SCORE_DATA_STORE_KEU, HasDataStoreCallback);
+        // SpatialBridge.HasDataStoreVariable(SpatialBridge.DataStoreScope.UserWorldData, SCORE_DATA_STORE_KEU, HasDataStoreCallback);
 
         bool completed = false;
         bool hasValue = false;
-        // ClientBridge.HasDataStoreVariable(
-        //     ClientBridge.DataStoreScope.UserWorldData,
+        // SpatialBridge.HasDataStoreVariable(
+        //     SpatialBridge.DataStoreScope.UserWorldData,
         //     SCORE_DATA_STORE_KEU,
         //     result =>
         //     {
@@ -86,9 +86,9 @@ public class ScoreManager : MonoBehaviour
         //         hasValue = (bool)result.value;
         //     }
         // );
-        ClientBridge.HasDataStoreVariable(
+        SpatialBridge.HasDataStoreVariable(
             ClientBridge.DataStoreScope.UserWorldData,
-            SCORE_DATA_STORE_KEU,
+            SCORE_DATA_STORE_KEY,
             null
         );
         Debug.LogError("!!! Runned");
@@ -103,7 +103,7 @@ public class ScoreManager : MonoBehaviour
         // if ((bool)_dataStoreOperationResult.value)
         // {
         //     _isDataStoreOperationComplete = false;
-        //     ClientBridge.GetDataStoreVariableValue(ClientBridge.DataStoreScope.UserWorldData, SCORE_DATA_STORE_KEU, 0, GetDataStoreCallback);
+        //     SpatialBridge.GetDataStoreVariableValue(SpatialBridge.DataStoreScope.UserWorldData, SCORE_DATA_STORE_KEU, 0, GetDataStoreCallback);
         // }
         // Debug.LogError($"!!! hasValue: {(bool)_dataStoreOperationResult.value}");
 
@@ -116,7 +116,7 @@ public class ScoreManager : MonoBehaviour
         // _scoreText.text = _currentScore.ToString("N0");
     }
 
-    private void HasDataStoreCallbackA(ClientBridge.DataStoreOperationResult result)
+    private void HasDataStoreCallbackA(SpatialBridge.DataStoreOperationResult result)
     {
         Debug.LogError("!!! HasDataStoreCallbackA");
     }
@@ -136,7 +136,7 @@ public class ScoreManager : MonoBehaviour
         // Floating Text
         // string scoreText = $"<font-weight='900'>{score.ToString()}</font-weight>";
         // string scoreText = $"<size=300%>{score.ToString()}";
-        // ClientBridge.CreateFloatingText(scoreText, FloatingTextAnimStyle.Bouncy, _scoreTextTransform.position, Vector3.up, Color.red, gravity: false, _floatingTextScaleCurve, _floatingTextAlphaCurve, lifetime: 0.2f);
+        // SpatialBridge.CreateFloatingText(scoreText, FloatingTextAnimStyle.Bouncy, _scoreTextTransform.position, Vector3.up, Color.red, gravity: false, _floatingTextScaleCurve, _floatingTextAlphaCurve, lifetime: 0.2f);
         _scoreTextFloating.text = score.ToString();
         _scoreTextFloatingAnimator.SetTrigger(ANIM_TRIGGER_POP);
 
@@ -156,7 +156,7 @@ public class ScoreManager : MonoBehaviour
     private IEnumerator SaveScoreCoroutine(int currentStore)
     {
         _isDataStoreOperationComplete = false;
-        ClientBridge.SetDataStoreVariableValue(ClientBridge.DataStoreScope.UserWorldData, SCORE_DATA_STORE_KEU, currentStore, SetDataStoreCallback);
+        SpatialBridge.SetDataStoreVariableValue(ClientBridge.DataStoreScope.UserWorldData, SCORE_DATA_STORE_KEY, currentStore, SetDataStoreCallback);
 
         Debug.LogError($"!!! Try Save Score: {currentStore}");
 
@@ -165,19 +165,19 @@ public class ScoreManager : MonoBehaviour
         Debug.LogError("!!! SetDataStoreVariable Complete");
     }
 
-    private void HasDataStoreCallback(ClientBridge.DataStoreOperationResult result)
+    private void HasDataStoreCallback(SpatialBridge.DataStoreOperationResult result)
     {
         _isDataStoreOperationComplete = true;
         _dataStoreOperationResult = result;
     }
 
-    private void GetDataStoreCallback(ClientBridge.DataStoreOperationResult result)
+    private void GetDataStoreCallback(SpatialBridge.DataStoreOperationResult result)
     {
         _isDataStoreOperationComplete = true;
         _dataStoreOperationResult = result;
     }
 
-    private void SetDataStoreCallback(ClientBridge.DataStoreOperationResult result)
+    private void SetDataStoreCallback(SpatialBridge.DataStoreOperationResult result)
     {
         _isDataStoreOperationComplete = true;
         _dataStoreOperationResult = result;
