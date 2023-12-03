@@ -1654,7 +1654,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 23,431,615,321,123
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cfb7058de26e3433cac4ee89493899d9, type: 2}
   m_sharedMaterial: {fileID: -687394246710402829, guid: cfb7058de26e3433cac4ee89493899d9,
@@ -3954,9 +3954,7 @@ GameObject:
   - component: {fileID: 1681557729}
   - component: {fileID: 1681557728}
   - component: {fileID: 1681557727}
-  - component: {fileID: 1681557726}
   - component: {fileID: 1681557730}
-  - component: {fileID: 1681557725}
   m_Layer: 0
   m_Name: ScoreManager
   m_TagString: Untagged
@@ -3964,37 +3962,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1681557725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1681557724}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 453ac99a2b5f649ac8bc612b1e3142ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncTransform: 1
-  syncRigidbody: 0
-  saveWithSpace: 0
-  destroyOnCreatorDisconnect: 0
-  assetID: 
-  instanceID: 9037908a-5b6f-4601-9cba-5a97d3df735b
---- !u!114 &1681557726
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1681557724}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a64ac5e80ebf444b7be149b105925d21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  variableSettings: []
 --- !u!114 &1681557727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4002,7 +3969,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1681557724}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2fe5546f775c47d2820aa5e8a715f53, type: 3}
   m_Name: 
@@ -4057,9 +4024,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a63e1ab1850d4d5ca13132540749bca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _scoreText: {fileID: 658259911}
   _scoreTextFloating: {fileID: 98626768}
   _scoreTextFloatingAnimator: {fileID: 172193909}
-  _scoreText: {fileID: 658259911}
 --- !u!1 &1690525600
 GameObject:
   m_ObjectHideFlags: 0
