@@ -49,29 +49,22 @@ public class ScoreManager : MonoBehaviour
                 break;
         }
     }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            StartCoroutine(Initialize());
-        }
-    }
 
-    private IEnumerator Initialize()
-    {
-        bool hasValue = false;
-        bool completed = false;
-        SpatialBridge.HasDataStoreVariable(
-            ClientBridge.DataStoreScope.UserWorldData,
-            "score",
-            result =>
-            {
-                completed = true;
-                hasValue = (bool)result.value;
-            }
-        );
-        yield return new WaitUntil(() => completed);
-    }
+    // private IEnumerator Initialize()
+    // {
+    //     bool hasValue = false;
+    //     bool completed = false;
+    //     SpatialBridge.HasDataStoreVariable(
+    //         ClientBridge.DataStoreScope.UserWorldData,
+    //         "score",
+    //         result =>
+    //         {
+    //             completed = true;
+    //             hasValue = (bool)result.value;
+    //         }
+    //     );
+    //     yield return new WaitUntil(() => completed);
+    // }
 
     public static void AddScore(int scoreAdd)
     {

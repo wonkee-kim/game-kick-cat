@@ -1,3 +1,4 @@
+using SpatialSys.UnitySDK;
 using UnityEngine;
 
 public class GameSettings : MonoBehaviour
@@ -21,6 +22,14 @@ public class GameSettings : MonoBehaviour
         if (_instance == null)
         {
             _instance = this;
+        }
+        SpatialBridge.SetInputOverrides(movementOverride: true, jumpOverride: true, sprintOverride: true, actionButtonOverride: true, target: gameObject);
+    }
+    private void OnDestroy()
+    {
+        if (_instance == this)
+        {
+            _instance = null;
         }
     }
 }

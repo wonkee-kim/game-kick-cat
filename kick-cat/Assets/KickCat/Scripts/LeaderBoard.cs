@@ -12,19 +12,19 @@ public class LeaderBoard : MonoBehaviour
     private Dictionary<int, int> _scores = new Dictionary<int, int>(); // userID, score
     private List<KeyValuePair<int, int>> _sortedScores = new List<KeyValuePair<int, int>>();
 
-    private SpatialBridge.ActorUserData _localActorUserData;
-    private static string _userName => _instance._localActorUserData.displayName;
-
     private const int MAX_LEADERBOARD_SCORES = 8;
-    [SerializeField] private TextMeshProUGUI _textNames;
-    [SerializeField] private TextMeshProUGUI _textScores;
+    [SerializeField] private GameObject[] _textContainers;
+    [SerializeField] private TextMeshProUGUI[] _textNames;
+    [SerializeField] private TextMeshProUGUI[] _textScores;
 
+    [SerializeField] private SpatialSyncedObject _leaderBoardSyncedObject;
     [SerializeField] private Variables _leaderBoardSyncedVariables;
     [SerializeField] private TextMeshProUGUI _textTopName;
     [SerializeField] private TextMeshProUGUI _textTopScore;
+    private int _topScore;
+    private string _topScorePlayerName;
 
     private Delegate _customEvHandler;
-
 
     private void Awake()
     {
@@ -32,8 +32,8 @@ public class LeaderBoard : MonoBehaviour
         {
             _instance = this;
         }
-        _localActorUserData = SpatialBridge.GetLocalActorUserData();
         _customEvHandler = VisualScriptingUtility.AddCustomEventListener(gameObject, HandleCustomEvent);
+        UpdateLeaderBoardUI();
     }
     private void OnDestroy()
     {
@@ -47,15 +47,9 @@ public class LeaderBoard : MonoBehaviour
     public static void UpdateScore(int score)
     {
         VisualScriptingUtility.TriggerCustomEvent(_instance.gameObject, "UpdateScoreEvent", new object[] { score });
-        if (score > (int)_instance._leaderBoardSyncedVariables.declarations.Get("topScore"))
-        {
-            _instance._leaderBoardSyncedVariables.declarations.Set("topScore", score);
-            _instance._leaderBoardSyncedVariables.declarations.Set("topScorePlayerName", _userName);
-            _instance._textTopName.text = _userName;
-            _instance._textTopScore.text = score.ToString("N0");
-        }
     }
 
+    // TODO: doesn't work
     public static void RemovePlayer()
     {
         VisualScriptingUtility.TriggerCustomEvent(_instance.gameObject, "RemovePlayerEvent");
@@ -87,6 +81,20 @@ public class LeaderBoard : MonoBehaviour
         {
             _scores.Add(userID, score);
         }
+
+        _topScore = (int)_instance._leaderBoardSyncedVariables.declarations.Get("topScore");
+        _topScorePlayerName = (string)_instance._leaderBoardSyncedVariables.declarations.Get("topScorePlayerName");
+        if (score > _topScore)
+        {
+            _topScore = score;
+            _topScorePlayerName = SpatialBridge.GetActorUserData(userID).displayName;
+            if (SpatialBridge.GetSyncedObjectIsLocallyOwned(_leaderBoardSyncedObject))
+            {
+                _instance._leaderBoardSyncedVariables.declarations.Set("topScore", _topScore);
+                _instance._leaderBoardSyncedVariables.declarations.Set("topScorePlayerName", _topScorePlayerName);
+            }
+        }
+
         _instance.UpdateLeaderBoardUI();
     }
 
@@ -101,6 +109,15 @@ public class LeaderBoard : MonoBehaviour
 
     private void UpdateLeaderBoardUI()
     {
+        // Check any player has left
+        foreach (int id in _scores.Keys)
+        {
+            if (!SpatialBridge.GetActorUserData(id).exists)
+            {
+                _scores.Remove(id);
+            }
+        }
+
         _sortedScores.Clear();
         foreach (KeyValuePair<int, int> kvp in _scores)
         {
@@ -108,16 +125,17 @@ public class LeaderBoard : MonoBehaviour
         }
         _sortedScores.Sort((x, y) => y.Value.CompareTo(x.Value));
 
-        string names = "";
-        string scores = "";
-        int count = Mathf.Min(_sortedScores.Count, MAX_LEADERBOARD_SCORES);
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < MAX_LEADERBOARD_SCORES; i++)
         {
-            names += SpatialBridge.GetActorUserData(_sortedScores[i].Key).displayName + "\n";
-            scores += _sortedScores[i].Value.ToString("N0") + "\n";
+            _textContainers[i].gameObject.SetActive(i < _sortedScores.Count);
+            if (i < _sortedScores.Count)
+            {
+                _textNames[i].text = SpatialBridge.GetActorUserData(_sortedScores[i].Key).displayName;
+                _textScores[i].text = _sortedScores[i].Value.ToString("N0");
+            }
         }
 
-        _textNames.text = names;
-        _textScores.text = scores;
+        _instance._textTopName.text = _topScorePlayerName;
+        _instance._textTopScore.text = _topScore.ToString("N0");
     }
 }
