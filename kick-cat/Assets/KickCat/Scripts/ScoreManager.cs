@@ -1,11 +1,13 @@
 using System;
 using UnityEngine;
+using System.Collections;
 using SpatialSys.UnitySDK;
 using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
     private static ScoreManager _instance;
+
     private static readonly int ANIM_TRIGGER_POP = Animator.StringToHash("pop");
 
     [SerializeField] private TextMeshProUGUI _scoreText;
@@ -31,6 +33,7 @@ public class ScoreManager : MonoBehaviour
         {
             _instance = null;
         }
+        LeaderBoard.RemovePlayer();
         VisualScriptingUtility.RemoveCustomEventListener(gameObject, _customEvHandler);
     }
 
@@ -45,6 +48,29 @@ public class ScoreManager : MonoBehaviour
                 Debug.LogWarning("received unknown message: " + message);
                 break;
         }
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            StartCoroutine(Initialize());
+        }
+    }
+
+    private IEnumerator Initialize()
+    {
+        bool hasValue = false;
+        bool completed = false;
+        SpatialBridge.HasDataStoreVariable(
+            ClientBridge.DataStoreScope.UserWorldData,
+            "score",
+            result =>
+            {
+                completed = true;
+                hasValue = (bool)result.value;
+            }
+        );
+        yield return new WaitUntil(() => completed);
     }
 
     public static void AddScore(int scoreAdd)
@@ -66,5 +92,6 @@ public class ScoreManager : MonoBehaviour
     {
         _currentScore = score;
         _scoreText.text = _currentScore.ToString("N0");
+        LeaderBoard.UpdateScore(_currentScore);
     }
 }
