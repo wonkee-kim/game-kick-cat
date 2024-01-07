@@ -87,7 +87,7 @@ public class LeaderBoard : MonoBehaviour
         if (score > _topScore)
         {
             _topScore = score;
-            _topScorePlayerName = SpatialBridge.GetActorUserData(userID).displayName;
+            _topScorePlayerName = SpatialBridge.actorService.actors[userID].displayName;
             if (SpatialBridge.GetSyncedObjectIsLocallyOwned(_leaderBoardSyncedObject))
             {
                 _instance._leaderBoardSyncedVariables.declarations.Set("topScore", _topScore);
@@ -112,7 +112,7 @@ public class LeaderBoard : MonoBehaviour
         // Check any player has left
         foreach (int id in _scores.Keys)
         {
-            if (!SpatialBridge.GetActorUserData(id).exists)
+            if (!SpatialBridge.actorService.actors.ContainsKey(id))
             {
                 _scores.Remove(id);
             }
@@ -130,7 +130,7 @@ public class LeaderBoard : MonoBehaviour
             _textContainers[i].gameObject.SetActive(i < _sortedScores.Count);
             if (i < _sortedScores.Count)
             {
-                _textNames[i].text = SpatialBridge.GetActorUserData(_sortedScores[i].Key).displayName;
+                _textNames[i].text = SpatialBridge.actorService.actors[_sortedScores[i].Key].displayName;
                 _textScores[i].text = _sortedScores[i].Value.ToString("N0");
             }
         }
