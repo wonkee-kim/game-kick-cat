@@ -1,4 +1,5 @@
 using UnityEngine;
+using SpatialSys.UnitySDK;
 
 public class KickManager : MonoBehaviour
 {
@@ -59,5 +60,6 @@ public class KickManager : MonoBehaviour
         }
         _catView.OnKick(isHit, hitPosition);
         AudioManager.PlayKickSound();
+        SpatialBridge.inputService.PlayVibration(frequency: isHit ? 0.7f : 0.2f, amplitude: isHit ? 0.4f : 0.2f, duration: 0.1f);
     }
 }

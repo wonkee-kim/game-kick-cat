@@ -17,13 +17,15 @@ public class GameSettings : MonoBehaviour
     [SerializeField] private float _viewPortRange = 7f;
     [SerializeField] private float _scrollSpeed = 7f;
 
+    private AvatarInputActionsListener _inputListener = new AvatarInputActionsListener();
+
     private void Awake()
     {
         if (_instance == null)
         {
             _instance = this;
         }
-        SpatialBridge.SetInputOverrides(movementOverride: true, jumpOverride: true, sprintOverride: true, actionButtonOverride: true, target: gameObject);
+        SpatialBridge.inputService.StartAvatarInputCapture(movement: true, jump: true, sprint: true, actionButton: true, _inputListener);
     }
     private void OnDestroy()
     {

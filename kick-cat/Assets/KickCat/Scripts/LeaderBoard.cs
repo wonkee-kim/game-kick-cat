@@ -88,7 +88,7 @@ public class LeaderBoard : MonoBehaviour
         {
             _topScore = score;
             _topScorePlayerName = SpatialBridge.actorService.actors[userID].displayName;
-            if (SpatialBridge.GetSyncedObjectIsLocallyOwned(_leaderBoardSyncedObject))
+            if (SpatialBridge.spaceContentService.GetSyncedObjectIsLocallyOwned(_leaderBoardSyncedObject))
             {
                 _instance._leaderBoardSyncedVariables.declarations.Set("topScore", _topScore);
                 _instance._leaderBoardSyncedVariables.declarations.Set("topScorePlayerName", _topScorePlayerName);
